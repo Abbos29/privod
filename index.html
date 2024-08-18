@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Landing Page">
+    <meta name="description" content="Компания Приводные Решения">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Landing Page</title>
+    <title>Компания Приводные Решения</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
-    <link rel="icon" href="./img/favicon.svg">
+    <link rel="icon" href="./img/favicon.png">
     <link rel="stylesheet" href="./style/reset.css">
     <link rel="stylesheet" href="./style/style.css">
 </head>
@@ -36,7 +36,7 @@
 
                 <div class="nav__btns">
 
-                    <button class="btn">Заказать звонок</button>
+                    <button class="btn modal__open">Заказать звонок</button>
 
                     <button>
                         <img src="./img/icon-tel.svg" alt="icon">
@@ -391,7 +391,7 @@
                 <a href="">
                     <img class="footer__logo" src="./img/logo.svg" alt="logo">
                 </a>
-                
+
                 <div class="footer__main">
                     <div class="footer__top">
                         <div class="footer__menu">
@@ -452,6 +452,28 @@
         </div>
     </footer>
 
+
+    <div class="overlay">
+        <div class="modal">
+            <div class="modal__close">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M24.7225 7.04497L22.955 5.27747L15 13.2325L7.04497 5.27747L5.27747 7.04497L13.2325 15L5.27747 22.955L7.04497 24.7225L15 16.7675L22.955 24.7225L24.7225 22.955L16.7675 15L24.7225 7.04497Z"
+                        fill="#0B1C30" />
+                </svg>
+
+            </div>
+
+            <h2>Оставьте заявку</h2>
+            <p>Заполните форму заявки, мы свяжемся с вами и приедем в любое удобное вам время для уточнения всех нюансов.</p>
+
+            <form action="">
+                <input placeholder="Ваш телефон" type="text">
+                <p>Нажимая кнопку «Отправить» вы соглашаетесь с правилами политики конфеденциальности.</p>
+                <button class="btn">Отправить</button>
+            </form>
+        </div>
+    </div>
 
 
 </body>
