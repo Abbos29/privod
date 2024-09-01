@@ -12,11 +12,39 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Компания Приводные Решения - Промышленное Оборудование и Редукторы</title>
 
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(98129918, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        }); 
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/98129918" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
 
     <link rel="icon" href="./img/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./img/favicon.png">
@@ -37,28 +65,37 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <img class="nav__logo" src="./img/logo.svg" alt="logo">
+                <a class="nav__logo" href="/">
+                    <img src="./img/logo.svg" alt="logo">
+                </a>
 
                 <div class="nav__menu">
-                    <a class="link" href="">О компании</a>
-                    <a class="link" href="">Продукция</a>
-                    <a class="link" href="">Контакты</a>
-                    <a class="link" href="">Запросить предложенние</a>
+                    <a class="link" href="./#about">О компании</a>
+                    <a class="link" href="./#catalog">Продукция</a>
+                    <a class="link" href="./#contacts">Контакты</a>
+                    <!-- <p class="link modal__open">Запросить предложенние</p> -->
                 </div>
 
-                <a class="nav__tel link" href="tel:+78005505748">+7 800 550-57-48</a>
+                <a class="nav__tel link" href="tel:+79990001010">+7 (999) 000-10-10</a>
 
                 <div class="nav__btns">
 
                     <button class="btn modal__open">Заказать звонок</button>
 
-                    <button>
-                        <img src="./img/icon-tel.svg" alt="icon">
-                    </button>
+                    <a target="_blank"
+                        href="https://wa.me/79990001010?text=%D0%9C%D0%BD%D0%B5%20%D0%BD%D1%83%D0%B6%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20">
+                        <button>
+                            <img src="./img/icon-tel.svg" alt="icon">
+                        </button>
+                    </a>
 
-                    <button>
-                        <img src="./img/icon-tg.svg" alt="icon">
-                    </button>
+
+                    <a target="_blank" href="https://t.me/artemgra4ev">
+                        <button>
+                            <img src="./img/icon-tg.svg" alt="icon">
+                        </button>
+                    </a>
+
                 </div>
 
 
@@ -87,85 +124,62 @@
                 <h1 class="hero__title">Компания Приводные Решения</h1>
             </div>
 
-
             <img class="hero__img" src="./img/hero-img.jpg" alt="img">
         </div>
     </section>
 
-    <section class="catalog">
+    <section class="catalog" id="catalog">
         <div class="container">
             <div class="catalog__top">
                 <h2 class="section-title">Каталог продукции</h2>
 
-                <div class="catalog__inner">
-                    <button class="btn">Частотные преобразователи</button>
-                    <button class="btn active">Мотор-редукторы</button>
-                    <button class="btn">Электродвигатели</button>
-                    <button class="btn">Датчики INNOLEVEL</button>
-                    <button class="btn">Энкодеры</button>
-                    <button class="btn">Устройства плавного пуска</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tabs__header catalog__inner">
+                    <!-- Динамическое заполнение заголовков категорий -->
+                </div>
+
+                <div class="tabs__content">
+                    <!-- Динамическое заполнение товаров для каждой категории -->
+                </div>
+
+                <div class="overlay-big">
+                    <div class="modal-big">
+                        <div class="modal-big__close">
+                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M24.7225 7.04497L22.955 5.27747L15 13.2325L7.04497 5.27747L5.27747 7.04497L13.2325 15L5.27747 22.955L7.04497 24.7225L15 16.7675L22.955 24.7225L24.7225 22.955L16.7675 15L24.7225 7.04497Z"
+                                    fill="#0B1C30" />
+                            </svg>
+                        </div>
+                        <div class="modal-big__wrap">
+                            <div class="swiper modal-big__swiper">
+                                <div class="swiper-wrapper">
+                                    <!-- Динамическое заполнение слайдов -->
+                                </div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                            <div class="modal-big__box">
+                                <h3>сюда заголовок товара</h3>
+                                <div class="modal-big__texts">
+                                    <!-- Динамическое заполнение текстов -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="catalog__grid">
-                <a class="catalog__card" href="">
-                    <div>
-                        <img src="./img/card-1.png" alt="card">
-                        <h3>Червячные</h3>
-                        <button class="btn active">Подобрать</button>
-                        <button class="btn">Запросить предложение</button>
-                    </div>
-                </a>
 
-                <a class="catalog__card" href="">
-                    <div>
-                        <img src="./img/card-2.png" alt="card">
-                        <h3>Цилиндрические</h3>
-                        <button class="btn active">Подобрать</button>
-                        <button class="btn">Запросить предложение</button>
-                    </div>
-                </a>
 
-                <a class="catalog__card" href="">
-                    <div>
-                        <img src="./img/card-3.png" alt="card">
-                        <h3>Конические</h3>
-                        <button class="btn active">Подобрать</button>
-                        <button class="btn">Запросить предложение</button>
-                    </div>
-                </a>
-
-                <a class="catalog__card" href="">
-                    <div>
-                        <img src="./img/card-4.png" alt="card">
-                        <h3>Соосные</h3>
-                        <button class="btn active">Подобрать</button>
-                        <button class="btn">Запросить предложение</button>
-                    </div>
-                </a>
-
-                <a class="catalog__card" href="">
-                    <div>
-                        <img src="./img/card-5.png" alt="card">
-                        <h3>Коническо - цилиндрические</h3>
-                        <button class="btn active">Подобрать</button>
-                        <button class="btn">Запросить предложение</button>
-                    </div>
-                </a>
-
-                <a class="catalog__card" href="">
-                    <div>
-                        <img src="./img/card-6.png" alt="card">
-                        <h3>сосно - Цилиндрические</h3>
-                        <button class="btn active">Подобрать</button>
-                        <button class="btn">Запросить предложение</button>
-                    </div>
-                </a>
-            </div>
         </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about">
         <div class="container">
 
             <div class="about__wrap">
@@ -225,7 +239,7 @@
         </div>
     </section>
 
-    <section class="services">
+    <section class="services" style="display: none;">
         <div class="container">
             <h2 class="section-title">Услуги</h2>
 
@@ -234,7 +248,7 @@
                     <div>
                         <img src="./img/services-1.jpg" alt="img">
                         <h3>Ремонт котлов</h3>
-                        <button class="btn">Запросить предложение</button>
+                        <button class="btn modal__open">Запросить предложение</button>
                     </div>
                 </a>
 
@@ -242,7 +256,7 @@
                     <div>
                         <img src="./img/services-2.jpg" alt="img">
                         <h3>Монтаж тепловых узлов</h3>
-                        <button class="btn">Запросить предложение</button>
+                        <button class="btn modal__open">Запросить предложение</button>
                     </div>
                 </a>
 
@@ -250,14 +264,14 @@
         </div>
     </section>
 
-    <section class="order">
+    <section class="order" id="order">
         <div class="container">
             <div class="order__wrapper">
                 <h2>Оставь заявку на подбор оборудования БЕСПЛАТНО</h2>
 
-                <form action="">
+                <form class="form2" action="">
                     <input placeholder="Ваше имя" type="text">
-                    <input placeholder="Ваша электронная почта" type="text">
+                    <input required placeholder="Ваша электронная почта" type="text">
                     <button class="btn">Отправить</button>
                 </form>
             </div>
@@ -334,16 +348,16 @@
                 <h2>Остались <br> вопросы?</h2>
                 <p>Мы свяжемся с вами в удобное для вас время и ответим на все ваши вопросы</p>
 
-                <form action="">
+                <form class="form2" action="">
                     <input placeholder="Ваше имя" type="text">
-                    <input placeholder="Ваша электронная почта" type="text">
+                    <input required placeholder="Ваша электронная почта" type="text">
                     <button class="btn">Отправить</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <section class="contacts">
+    <section class="contacts" id="contacts">
         <div class="container">
             <h2 class="section-title">Контакты</h2>
         </div>
@@ -355,7 +369,7 @@
                     <div class="contacts__box">
                         <a target="_blank" href="https://maps.app.goo.gl/D4yucM4WL9oi1wcKA">г. Липецк, ул. Первомайская,
                             д. 40, офис 7</a>
-                        <a href="tel:+78005505748">+7 800 550-57-48 </a>
+                        <a href="tel:+79990001010">+7 (999) 000-10-10 </a>
                         <a href="mailto:lipetsk@in-tehnn.ru">lipetsk@in-tehnn.ru</a>
 
                         <div class="contacts__icons">
@@ -402,24 +416,24 @@
     <footer class="footer">
         <div class="container">
             <div class="footer__wrapper">
-                <a href="">
+                <a href="/">
                     <img class="footer__logo" src="./img/logo.svg" alt="logo">
                 </a>
 
                 <div class="footer__main">
                     <div class="footer__top">
                         <div class="footer__menu">
-                            <a class="link" href="">О компании</a>
-                            <a class="link" href="">Продукция</a>
-                            <a class="link" href="">Контакты</a>
-                            <a class="link" href="">Запросить предложенние</a>
+                            <a class="link" href="#about">О компании</a>
+                            <a class="link" href="#catalog">Продукция</a>
+                            <a class="link" href="#contacts">Контакты</a>
+                            <p class="link modal__open">Запросить предложенние</p>
                         </div>
 
                         <div class="contacts__box footer__box">
                             <a target="_blank" href="https://maps.app.goo.gl/D4yucM4WL9oi1wcKA">г. Липецк, ул.
                                 Первомайская,
                                 д. 40, офис 7</a>
-                            <a href="tel:+78005505748">+7 800 550-57-48 </a>
+                            <a href="tel:+79990001010">+7 (999) 000-10-10 </a>
                             <a href="mailto:lipetsk@in-tehnn.ru">lipetsk@in-tehnn.ru</a>
 
                             <div class="contacts__icons">
@@ -457,9 +471,9 @@
                     </div>
 
                     <div class="footer__bottom">
-                        <p>Компания приводные решения 2024. All right reserved</p>
-                        <a class="link" href="">Политика конфеденциальности</a>
-                        <a class="link" href="">Пользовательское соглашение и условия</a>
+                        <p>2024 © «Компания «Приводные решения»</p>
+                        <!-- <a class="link" href="">Политика конфеденциальности</a> -->
+                        <!-- <a class="link" href="">Пользовательское соглашение и условия</a> -->
                     </div>
                 </div>
             </div>
@@ -482,8 +496,8 @@
             <p>Заполните форму заявки, мы свяжемся с вами и приедем в любое удобное вам время для уточнения всех
                 нюансов.</p>
 
-            <form action="">
-                <input placeholder="Ваш телефон" type="text">
+            <form class="form" action="">
+                <input required placeholder="Ваш телефон" type="text">
                 <p>Нажимая кнопку «Отправить» вы соглашаетесь с правилами политики конфеденциальности.</p>
                 <button class="btn">Отправить</button>
             </form>
@@ -493,6 +507,8 @@
 
 </body>
 
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script src="./script/script.js"></script>
 
 </html>
