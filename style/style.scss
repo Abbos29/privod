@@ -286,7 +286,7 @@ section {
             width: 100%;
             &.active {
                 // margin-top: auto;
-            }
+            }   
         }
 
         img {
@@ -927,4 +927,10 @@ section {
     }
 }
 .container {
+}
+
+
+
+.zoomable-image {
+    cursor: zoom-in;
 }

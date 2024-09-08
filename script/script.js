@@ -1,9 +1,16 @@
 const burger = document.querySelector(".nav__burger");
 const menu = document.querySelector(".nav__menu");
+const links = document.querySelectorAll(".nav__menu a")
 
 burger.addEventListener("click", () => {
     menu.classList.toggle("active");
 });
+
+links.forEach(link => {
+    link.addEventListener('click', () => {
+        menu.classList.remove('active')
+    })
+})
 
 
 // MODAL
@@ -91,6 +98,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const btn = document.querySelector("#btn");
+
+
+
+
+
+
+
+
 
 // TABS
 
@@ -872,7 +887,7 @@ const catalogs = [
         ],
     },
     {
-        name: "Декодеры",
+        name: "Энкодеры",
         products: [
             {
                 productName: "Ультразвуковой измеритель уровня INNOLEVEL ECHO",
@@ -1079,6 +1094,7 @@ function generateTabsContent() {
                 <button class="btn active modal-big__open">Подробнее</button>
                 <button class="btn modal__open">Запросить предложение</button>
             `;
+
             productCard.addEventListener("click", (event) => {
                 // Проверяем, если клик был по кнопке с классом 'modal__open'
                 if (event.target.classList.contains("modal__open")) {
@@ -1087,6 +1103,8 @@ function generateTabsContent() {
                 showProductDetails(product);
             });
             catalogGrid.appendChild(productCard);
+
+
         });
 
         tabsContent.appendChild(catalogGrid);
@@ -1113,6 +1131,7 @@ function generateTabsContent() {
         overlay.classList.remove("active");
     });
 }
+
 
 function showProductDetails(product) {
     document.querySelector(".overlay-big").classList.add("active");
@@ -1159,9 +1178,34 @@ function showProductDetails(product) {
     product.sliderImages.forEach((image) => {
         const slide = document.createElement("div");
         slide.classList.add("swiper-slide");
-        slide.innerHTML = `<img src="${image}" alt="${product.productName}">`;
+        slide.innerHTML = `<img class="zoomable-image" src="${image}" alt="${product.productName}">`;
         swiperWrapper.appendChild(slide);
     });
+
+    // Находим изображение с классом zoomable-image и добавляем эффект зума
+    const imgs = document.querySelectorAll('.zoomable-image');
+
+    imgs.forEach(img => {
+        img.addEventListener('mousemove', (event) => {
+            const { left, top, width, height } = img.getBoundingClientRect();
+            const mouseX = event.clientX - left;
+            const mouseY = event.clientY - top;
+
+            // Переводим координаты мыши в проценты для точного позиционирования
+            const percentX = (mouseX / width) * 100;
+            const percentY = (mouseY / height) * 100;
+
+            // Устанавливаем трансформацию в зависимости от позиции мыши
+            img.style.transformOrigin = `${percentX}% ${percentY}%`;
+            img.style.transform = 'scale(1.7)'; // Уровень зума
+        });
+
+        img.addEventListener('mouseleave', () => {
+            img.style.transform = 'scale(1)'; // Возвращаем масштаб в норму
+            img.style.transformOrigin = 'center'; // Возвращаем трансформацию в центр
+        });
+    })
+
 
     // Реинициализация Swiper (если используется)
     // swiperInstance.update();
