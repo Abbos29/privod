@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Функция для отправки сообщения в Telegram
     function sendToTelegram(message) {
         const botToken = "6897421527:AAFmfonttqUj1ztVhzoy0Y5Amv6iRF0UtQo";
-        const chatId = "-4595864843";
+        const chatId = "-1002425770913";
         const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
         fetch(url, {
