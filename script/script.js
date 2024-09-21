@@ -13,27 +13,7 @@ links.forEach(link => {
 })
 
 
-// MODAL
 
-const overlay = document.querySelector(".overlay");
-const modalClose = document.querySelector(".modal__close");
-const modalOpenButtons = document.querySelectorAll(".modal__open");
-
-modalOpenButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        overlay.classList.add("active");
-    });
-});
-
-overlay.addEventListener("click", (event) => {
-    if (event.target === overlay) {
-        overlay.classList.remove("active");
-    }
-});
-
-modalClose.addEventListener("click", () => {
-    overlay.classList.remove("active");
-});
 
 // FORM
 
@@ -1069,6 +1049,11 @@ const catalogs = [
 ];
 
 
+
+
+
+
+
 function generateTabsContent() {
     const tabsHeader = document.querySelector(".tabs__header");
     const tabsContent = document.querySelector(".tabs__content");
@@ -1078,6 +1063,7 @@ function generateTabsContent() {
         const button = document.createElement("button");
         button.classList.add("tabs__header-item", "btn");
         button.textContent = catalog.name;
+        button.dataset.index = index; // Добавляем индекс как атрибут для кнопки
         tabsHeader.appendChild(button);
 
         // Создание контента для каждой категории
@@ -1103,35 +1089,114 @@ function generateTabsContent() {
                 showProductDetails(product);
             });
             catalogGrid.appendChild(productCard);
+        });
 
+        // MODAL
 
+        const overlay = document.querySelector(".overlay");
+        const modalClose = document.querySelector(".modal__close");
+        const modalOpenButtons = document.querySelectorAll(".modal__open");
+
+        modalOpenButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                overlay.classList.add("active");
+            });
+        });
+
+        overlay.addEventListener("click", (event) => {
+            if (event.target === overlay) {
+                overlay.classList.remove("active");
+            }
+        });
+
+        modalClose.addEventListener("click", () => {
+            overlay.classList.remove("active");
         });
 
         tabsContent.appendChild(catalogGrid);
     });
 
+    handleHashChange(); // Открываем таб при загрузке страницы
+}
 
-    const overlay = document.querySelector(".overlay");
-    const modalClose = document.querySelector(".modal__close");
-    const modalOpenButtons = document.querySelectorAll(".modal__open");
+function handleHashChange() {
+    const hash = window.location.hash.replace('#', ''); // Получаем хэш без символа #
+    const tabsHeaderItems = document.querySelectorAll(".tabs__header-item");
+    let index = 0; // По умолчанию выбираем первый таб
 
-    modalOpenButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            overlay.classList.add("active");
-        });
-    });
-
-    overlay.addEventListener("click", (event) => {
-        if (event.target === overlay) {
-            overlay.classList.remove("active");
+    // Поиск соответствующего индекса по значению в хэше
+    tabsHeaderItems.forEach((tab, i) => {
+        const urlText = textToUrl(tab.textContent);
+        if (urlText === hash) {
+            index = i;
         }
     });
 
-    modalClose.addEventListener("click", () => {
-        overlay.classList.remove("active");
-    });
+    activateTab(index);
 }
 
+
+function activateTab(index) {
+    const tabsHeaderItems = document.querySelectorAll(".tabs__header-item");
+    const tabsContentItems = document.querySelectorAll(".tabs__content-item");
+
+    // Деактивируем все табы и контент
+    tabsHeaderItems.forEach((tab, i) => {
+        tab.classList.remove("active");
+        tabsContentItems[i].style.display = "none";
+    });
+
+    // Активируем выбранный таб и контент
+    const activeTab = tabsHeaderItems[index];
+    activeTab.classList.add("active");
+    tabsContentItems[index].style.display = "grid";
+
+    // Обновляем хэш в URL, используя текст из таба
+    const tabText = textToUrl(activeTab.textContent);
+    window.location.hash = tabText;
+}
+
+
+
+
+document.querySelector(".tabs__header").addEventListener("click", (event) => {
+    if (event.target.classList.contains("tabs__header-item")) {
+        const index = event.target.dataset.index;
+        activateTab(index);
+    }
+});
+
+
+function transliterate(text) {
+    const cyrillicToLatinMap = {
+        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z',
+        'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
+        'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh',
+        'щ': 'shch', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+        'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'Zh', 'З': 'Z',
+        'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R',
+        'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh',
+        'Щ': 'Shch', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
+    };
+
+    return text.split('').map(char => cyrillicToLatinMap[char] || char).join('');
+}
+
+
+
+function textToUrl(text) {
+    const transliteratedText = transliterate(text); // Транслитерация текста
+    return transliteratedText
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9]/g, '-'); // Заменяем все пробелы и недопустимые символы на дефисы
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    generateTabsContent();
+    window.addEventListener("hashchange", handleHashChange); // Переключение табов при изменении хэша
+});
 
 function showProductDetails(product) {
     document.querySelector(".overlay-big").classList.add("active");
@@ -1204,19 +1269,16 @@ function showProductDetails(product) {
             img.style.transform = 'scale(1)'; // Возвращаем масштаб в норму
             img.style.transformOrigin = 'center'; // Возвращаем трансформацию в центр
         });
-    })
-
+    });
 
     // Реинициализация Swiper (если используется)
     // swiperInstance.update();
 }
 
-
-
 document.querySelector(".modal-big__close").addEventListener("click", () => {
     document.querySelector(".overlay-big").classList.remove("active");
 });
 
-// Инициализация контента и табов
-generateTabsContent();
-tabs(".tabs__header", ".tabs__header-item", ".tabs__content-item", "active");
+
+
+
