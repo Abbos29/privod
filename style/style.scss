@@ -934,3 +934,11 @@ section {
 .zoomable-image {
     cursor: zoom-in;
 }
+
+
+
+.tabs__content-item {
+    > :nth-child(1) {
+        display: grid !important;
+    }
+}

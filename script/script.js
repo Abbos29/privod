@@ -1054,6 +1054,7 @@ const catalogs = [
 
 
 
+
 function generateTabsContent() {
     const tabsHeader = document.querySelector(".tabs__header");
     const tabsContent = document.querySelector(".tabs__content");
@@ -1074,12 +1075,11 @@ function generateTabsContent() {
         catalog.products.forEach((product) => {
             const productCard = document.createElement("div");
             productCard.classList.add("catalog__card");
-            productCard.innerHTML = `
-                <img src="${product.previewImage}" alt="${product.productName}">
+            productCard.innerHTML = 
+                `<img src="${product.previewImage}" alt="${product.productName}">
                 <h3>${product.productName}</h3>
                 <button class="btn active modal-big__open">Подробнее</button>
-                <button class="btn modal__open">Запросить предложение</button>
-            `;
+                <button class="btn modal__open">Запросить предложение</button>`;
 
             productCard.addEventListener("click", (event) => {
                 // Проверяем, если клик был по кнопке с классом 'modal__open'
@@ -1087,30 +1087,12 @@ function generateTabsContent() {
                     return; // Прерываем выполнение функции
                 }
                 showProductDetails(product);
+                
+                // Обновляем URL с хешем
+                const productHash = textToUrl(product.productName);
+                window.history.pushState(null, null, `#${productHash}`); // Обновляем URL
             });
             catalogGrid.appendChild(productCard);
-        });
-
-        // MODAL
-
-        const overlay = document.querySelector(".overlay");
-        const modalClose = document.querySelector(".modal__close");
-        const modalOpenButtons = document.querySelectorAll(".modal__open");
-
-        modalOpenButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                overlay.classList.add("active");
-            });
-        });
-
-        overlay.addEventListener("click", (event) => {
-            if (event.target === overlay) {
-                overlay.classList.remove("active");
-            }
-        });
-
-        modalClose.addEventListener("click", () => {
-            overlay.classList.remove("active");
         });
 
         tabsContent.appendChild(catalogGrid);
@@ -1118,6 +1100,10 @@ function generateTabsContent() {
 
     handleHashChange(); // Открываем таб при загрузке страницы
 }
+
+
+
+
 
 function handleHashChange() {
     const hash = window.location.hash.replace('#', ''); // Получаем хэш без символа #
@@ -1133,6 +1119,19 @@ function handleHashChange() {
     });
 
     activateTab(index);
+
+    // Проверяем, если хэш соответствует продукту, открываем модалку
+    const productName = hash.replace(/-/g, ' '); // Возвращаем пробелы для проверки
+    const foundProduct = catalogs.flatMap(catalog => catalog.products).find(product => textToUrl(product.productName) === hash);
+    if (foundProduct) {
+        showProductDetails(foundProduct);
+    }
+
+    // Если хэш указывает на секцию, прокручиваем вниз
+    const targetElement = document.querySelector(`#${hash}`);
+    if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 
@@ -1155,9 +1154,6 @@ function activateTab(index) {
     const tabText = textToUrl(activeTab.textContent);
     window.location.hash = tabText;
 }
-
-
-
 
 document.querySelector(".tabs__header").addEventListener("click", (event) => {
     if (event.target.classList.contains("tabs__header-item")) {
@@ -1193,10 +1189,40 @@ function textToUrl(text) {
 }
 
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
     generateTabsContent();
+
+    // Прокручиваем к секции с id catalog при загрузке страницы
+    const catalogElement = document.getElementById("catalog");
+    if (catalogElement) {
+        catalogElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
     window.addEventListener("hashchange", handleHashChange); // Переключение табов при изменении хэша
+
+    // Установка плавного скролла к ссылкам на секции
+    const internalLinks = document.querySelectorAll("a[href^='#']");
+    internalLinks.forEach(link => {
+        link.addEventListener("click", function(event) {
+            event.preventDefault(); // Отменяем стандартное поведение ссылки
+            
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' }); // Прокрутка к целевому элементу
+                
+                // Очищаем URL от хэша
+                if (window.history) {
+                    history.replaceState(null, null, ' '); // Удаляем хэш из URL
+                }
+            }
+        });
+    });
 });
+
 
 function showProductDetails(product) {
     document.querySelector(".overlay-big").classList.add("active");
