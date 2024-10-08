@@ -1075,11 +1075,11 @@ function generateTabsContent() {
         catalog.products.forEach((product) => {
             const productCard = document.createElement("div");
             productCard.classList.add("catalog__card");
-            productCard.innerHTML = 
+            productCard.innerHTML =
                 `<img src="${product.previewImage}" alt="${product.productName}">
                 <h3>${product.productName}</h3>
                 <button class="btn active modal-big__open">Подробнее</button>
-                <button class="btn modal__open">Запросить предложение</button>`;
+                <button class="btn modal__open" onclick="requestCall()">Запросить предложение</button>`;
 
             productCard.addEventListener("click", (event) => {
                 // Проверяем, если клик был по кнопке с классом 'modal__open'
@@ -1087,7 +1087,7 @@ function generateTabsContent() {
                     return; // Прерываем выполнение функции
                 }
                 showProductDetails(product);
-                
+
                 // Обновляем URL с хешем
                 const productHash = textToUrl(product.productName);
                 window.history.pushState(null, null, `#${productHash}`); // Обновляем URL
@@ -1118,7 +1118,7 @@ function handleHashChange() {
         }
     });
 
-    activateTab(index);
+    activateTab(index, false); // Вызываем активацию таба, но без обновления хэша
 
     // Проверяем, если хэш соответствует продукту, открываем модалку
     const productName = hash.replace(/-/g, ' '); // Возвращаем пробелы для проверки
@@ -1128,14 +1128,13 @@ function handleHashChange() {
     }
 
     // Если хэш указывает на секцию, прокручиваем вниз
-    const targetElement = document.querySelector(`#${hash}`);
-    if (targetElement) {
+    if (hash && document.getElementById(hash)) {
+        const targetElement = document.getElementById(hash);
         targetElement.scrollIntoView({ behavior: 'smooth' });
     }
 }
 
-
-function activateTab(index) {
+function activateTab(index, updateHash = true) {
     const tabsHeaderItems = document.querySelectorAll(".tabs__header-item");
     const tabsContentItems = document.querySelectorAll(".tabs__content-item");
 
@@ -1150,10 +1149,19 @@ function activateTab(index) {
     activeTab.classList.add("active");
     tabsContentItems[index].style.display = "grid";
 
-    // Обновляем хэш в URL, используя текст из таба
-    const tabText = textToUrl(activeTab.textContent);
-    window.location.hash = tabText;
+    // Обновляем хэш в URL только если нужно
+    if (updateHash) {
+        const tabText = textToUrl(activeTab.textContent);
+        window.location.hash = tabText;
+    }
 }
+
+// Вызываем активацию при загрузке страницы, но без изменения хэша
+window.addEventListener('load', () => {
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange); // Следим за изменениями хэша
+});
+
 
 document.querySelector(".tabs__header").addEventListener("click", (event) => {
     if (event.target.classList.contains("tabs__header-item")) {
@@ -1196,7 +1204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Прокручиваем к секции с id catalog при загрузке страницы
     const catalogElement = document.getElementById("catalog");
-    if (catalogElement) {
+    if (window.location.hash && catalogElement) {
         catalogElement.scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -1205,15 +1213,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Установка плавного скролла к ссылкам на секции
     const internalLinks = document.querySelectorAll("a[href^='#']");
     internalLinks.forEach(link => {
-        link.addEventListener("click", function(event) {
+        link.addEventListener("click", function (event) {
             event.preventDefault(); // Отменяем стандартное поведение ссылки
-            
+
             const targetId = this.getAttribute("href");
             const targetElement = document.querySelector(targetId);
 
-            if (targetElement) {
+            if (window.location.hash && targetElement) {
                 targetElement.scrollIntoView({ behavior: 'smooth' }); // Прокрутка к целевому элементу
-                
+
                 // Очищаем URL от хэша
                 if (window.history) {
                     history.replaceState(null, null, ' '); // Удаляем хэш из URL
@@ -1239,7 +1247,7 @@ function showProductDetails(product) {
             p.textContent = text;
             textsContainer.appendChild(p);
         });
-
+    
         // Добавление списка (ul и li)
         if (list && list.length > 0) {
             const ul = document.createElement("ul");
@@ -1250,7 +1258,16 @@ function showProductDetails(product) {
             });
             textsContainer.appendChild(ul);
         }
+    
+        // Проверка на наличие блока с классом "descc"
+        if (!textsContainer.querySelector('.descc')) {
+            const desc = document.createElement('div');
+            desc.innerHTML = `<b class="descc">Если вы хотите заказать эту технику, просто свяжитесь с нами по телефону <a href="tel:88005505748">8 (800) 550-57-48</a> или напишите нам в <a target="_blank" href="https://wa.me/79588655980?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9C%D0%BD%D0%B5%20%D0%BD%D1%83%D0%B6%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F.">вотсап</a>. При обращении до конца сегодняшнего дня мы сделаем предложение со скидкой до 10%.</b>`;
+            textsContainer.appendChild(desc);
+        }
     }
+    
+
 
     // Вставляем основное описание и список
     appendContent(product.description, product.list);
@@ -1306,5 +1323,18 @@ document.querySelector(".modal-big__close").addEventListener("click", () => {
 });
 
 
+
+function requestCall() {
+    document.querySelector(".overlay").classList.toggle("active");
+};
+
+
+const overlay = document.querySelector('.overlay')
+
+overlay.addEventListener('click', (e) => {
+    if (!e.target.closest('.modal')) {
+        overlay.classList.remove('active')
+    }
+})
 
 

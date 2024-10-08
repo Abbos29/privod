@@ -942,3 +942,11 @@ section {
         display: grid !important;
     }
 }
+.descc {
+    font-size: 16px;
+
+    a {
+        text-decoration: underline;
+        color: #000;
+    }
+}

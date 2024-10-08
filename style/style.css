@@ -798,4 +798,12 @@ section {
 
 .tabs__content-item > :nth-child(1) {
   display: grid !important;
+}
+
+.descc {
+  font-size: 16px;
+}
+.descc a {
+  text-decoration: underline;
+  color: #000;
 }/*# sourceMappingURL=style.css.map */
