@@ -1262,7 +1262,7 @@ function showProductDetails(product) {
         // Проверка на наличие блока с классом "descc"
         if (!textsContainer.querySelector('.descc')) {
             const desc = document.createElement('div');
-            desc.innerHTML = `<b class="descc">Если вы хотите заказать эту технику, просто свяжитесь с нами по телефону <a href="tel:88005505748">8 (800) 550-57-48</a> или напишите нам в <a target="_blank" href="https://wa.me/79588655980?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9C%D0%BD%D0%B5%20%D0%BD%D1%83%D0%B6%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F.">вотсап</a>. При обращении до конца сегодняшнего дня мы сделаем предложение со скидкой до 10%.</b>`;
+            desc.innerHTML = `<b class="descc">Если вы хотите заказать эту технику, просто свяжитесь с нами по телефону <a href="tel:88005505748">8 (800) 550-57-48</a> или напишите нам в <a target="_blank" href="https://wa.me/79588655980?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9C%D0%BD%D0%B5%20%D0%BD%D1%83%D0%B6%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F.">WhatsApp</a>. При обращении до конца сегодняшнего дня мы сделаем предложение со скидкой до 10%.</b>`;
             textsContainer.appendChild(desc);
         }
     }
