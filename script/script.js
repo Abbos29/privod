@@ -2,6 +2,24 @@ const burger = document.querySelector(".nav__burger");
 const menu = document.querySelector(".nav__menu");
 const links = document.querySelectorAll(".nav__menu a")
 
+if (typeof Lenis !== "undefined") {
+    const lenis = new Lenis({
+        duration: 1.1,
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1.2,
+    });
+
+    const raf = (time) => {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    };
+
+    requestAnimationFrame(raf);
+
+    window.lenis = lenis;
+}
+
 burger.addEventListener("click", () => {
     menu.classList.toggle("active");
 });
@@ -13,6 +31,13 @@ links.forEach(link => {
 })
 
 
+document.addEventListener("click", (event) => {
+    const openButton = event.target.closest(".modal__open");
+    if (openButton) {
+        event.preventDefault();
+        requestCall();
+    }
+});
 
 
 // FORM
@@ -1078,8 +1103,8 @@ function generateTabsContent() {
             productCard.innerHTML =
                 `<img src="${product.previewImage}" alt="${product.productName}">
                 <h3>${product.productName}</h3>
-                <button class="btn active modal-big__open">Подробнее</button>
-                <button class="btn modal__open" onclick="requestCall()">Запросить предложение</button>`;
+                <button type="button" class="btn active modal-big__open">Подробнее</button>
+                <button type="button" class="btn modal__open">Запросить предложение</button>`;
 
             productCard.addEventListener("click", (event) => {
                 // Проверяем, если клик был по кнопке с классом 'modal__open'
@@ -1202,6 +1227,25 @@ function textToUrl(text) {
 document.addEventListener("DOMContentLoaded", () => {
     generateTabsContent();
 
+    const revealTargets = document.querySelectorAll("section, .catalog__card, .offer__card, .about__img, .contacts__wrap, .order__wrapper");
+    revealTargets.forEach((element) => {
+        element.classList.add("scroll-reveal");
+    });
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.14,
+        rootMargin: "0px 0px -8% 0px",
+    });
+
+    revealTargets.forEach((element) => revealObserver.observe(element));
+
     // Прокручиваем к секции с id catalog при загрузке страницы
     const catalogElement = document.getElementById("catalog");
     if (window.location.hash && catalogElement) {
@@ -1211,21 +1255,27 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("hashchange", handleHashChange); // Переключение табов при изменении хэша
 
     // Установка плавного скролла к ссылкам на секции
-    const internalLinks = document.querySelectorAll("a[href^='#']");
+    const internalLinks = document.querySelectorAll("a[href^='#'], a[href^='./#']");
     internalLinks.forEach(link => {
         link.addEventListener("click", function (event) {
-            event.preventDefault(); // Отменяем стандартное поведение ссылки
-
-            const targetId = this.getAttribute("href");
+            const rawHref = this.getAttribute("href");
+            const targetId = rawHref.replace("./", "");
             const targetElement = document.querySelector(targetId);
 
-            if (window.location.hash && targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' }); // Прокрутка к целевому элементу
+            if (!targetElement) {
+                return;
+            }
 
-                // Очищаем URL от хэша
-                if (window.history) {
-                    history.replaceState(null, null, ' '); // Удаляем хэш из URL
-                }
+            event.preventDefault();
+
+            if (window.lenis) {
+                window.lenis.scrollTo(targetElement, { duration: 1.1 });
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            if (window.history) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
             }
         });
     });
@@ -1330,6 +1380,13 @@ function requestCall() {
 
 
 const overlay = document.querySelector('.overlay')
+const modalCloseButton = document.querySelector('.modal__close');
+
+if (modalCloseButton) {
+    modalCloseButton.addEventListener('click', () => {
+        overlay.classList.remove('active');
+    });
+}
 
 overlay.addEventListener('click', (e) => {
     if (!e.target.closest('.modal')) {
